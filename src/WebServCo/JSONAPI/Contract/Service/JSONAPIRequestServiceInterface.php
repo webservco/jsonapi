@@ -22,10 +22,14 @@ interface JSONAPIRequestServiceInterface
     public function getRequestBodyAsArray(ServerRequestInterface $request): array;
 
     /**
-     * @param array<mixed> $requestBodyAsArray
      * @return array<mixed>
      */
-    public function getRequestBodyData(array $requestBodyAsArray): array;
+    public function getRequestBodyData(ServerRequestInterface $request): array;
+
+    /**
+     * @return array<mixed>
+     */
+    public function getRequestBodyDataAttributes(ServerRequestInterface $request): array;
 
     /**
      * @param array<mixed> $requestBodyAsArray

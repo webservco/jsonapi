@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace WebServCo\JSONAPI\Service;
 
+use OutOfBoundsException;
 use Psr\Http\Message\ServerRequestInterface;
 use UnexpectedValueException;
 use WebServCo\JSONAPI\Contract\Service\JSONAPIRequestServiceInterface;
@@ -61,13 +62,14 @@ final class JSONAPIRequestService implements JSONAPIRequestServiceInterface
     /** @phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint */
 
     /**
-     * @param array<mixed> $requestBodyAsArray
      * @return array<mixed>
      */
-    public function getRequestBodyData(array $requestBodyAsArray): array
+    public function getRequestBodyData(ServerRequestInterface $request): array
     {
+        $requestBodyAsArray = $this->getRequestBodyAsArray($request);
+
         if (!array_key_exists('data', $requestBodyAsArray)) {
-            throw new UnexpectedValueException('Missing data node.');
+            throw new OutOfBoundsException('Missing data node.');
         }
 
         if (!is_array($requestBodyAsArray['data'])) {
@@ -78,12 +80,30 @@ final class JSONAPIRequestService implements JSONAPIRequestServiceInterface
     }
 
     /**
+     * @return array<mixed>
+     */
+    public function getRequestBodyDataAttributes(ServerRequestInterface $request): array
+    {
+        $requestBodyData = $this->getRequestBodyData($request);
+
+        if (!array_key_exists('attributes', $requestBodyData)) {
+            throw new OutOfBoundsException('Invalid data.');
+        }
+
+        if (!is_array($requestBodyData['attributes'])) {
+            throw new UnexpectedValueException('Invalid data.');
+        }
+
+        return $requestBodyData['attributes'];
+    }
+
+    /**
      * @param array<mixed> $requestBodyAsArray
      */
     public function validateVersion(array $requestBodyAsArray, string $expectedVersion = '1.1'): bool
     {
         if (!array_key_exists('jsonapi', $requestBodyAsArray)) {
-            throw new UnexpectedValueException('Missing jsonapi node.');
+            throw new OutOfBoundsException('Missing jsonapi node.');
         }
 
         if (!is_array($requestBodyAsArray['jsonapi'])) {
@@ -91,7 +111,7 @@ final class JSONAPIRequestService implements JSONAPIRequestServiceInterface
         }
 
         if (!array_key_exists('version', $requestBodyAsArray['jsonapi'])) {
-            throw new UnexpectedValueException('Missing jsonapi.version node.');
+            throw new OutOfBoundsException('Missing jsonapi.version node.');
         }
 
         if ($requestBodyAsArray['jsonapi']['version'] !== $expectedVersion) {
