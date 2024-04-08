@@ -37,7 +37,7 @@ final class JSONAPIRequestService implements JSONAPIRequestServiceInterface
     /**
      * @inheritDoc
      */
-    public function parseRequestBody(ServerRequestInterface $request): array
+    public function getRequestBodyAsArray(ServerRequestInterface $request): array
     {
         $requestBody = $request->getBody()->getContents();
 
@@ -64,7 +64,7 @@ final class JSONAPIRequestService implements JSONAPIRequestServiceInterface
      * @param array<mixed> $requestBodyAsArray
      * @return array<mixed>
      */
-    public function parseRequestBodyData(array $requestBodyAsArray): array
+    public function getRequestBodyData(array $requestBodyAsArray): array
     {
         if (!array_key_exists('data', $requestBodyAsArray)) {
             throw new UnexpectedValueException('Missing data node.');

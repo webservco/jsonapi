@@ -19,13 +19,13 @@ interface JSONAPIRequestServiceInterface
      *
      * @return array<mixed>
      */
-    public function parseRequestBody(ServerRequestInterface $request): array;
+    public function getRequestBodyAsArray(ServerRequestInterface $request): array;
 
     /**
      * @param array<mixed> $requestBodyAsArray
      * @return array<mixed>
      */
-    public function parseRequestBodyData(array $requestBodyAsArray): array;
+    public function getRequestBodyData(array $requestBodyAsArray): array;
 
     /**
      * @param array<mixed> $requestBodyAsArray
