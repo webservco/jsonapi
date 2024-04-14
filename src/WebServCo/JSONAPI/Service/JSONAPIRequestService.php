@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace WebServCo\JSONAPI\Service;
 
-use OutOfBoundsException;
 use Psr\Http\Message\ServerRequestInterface;
 use UnexpectedValueException;
+use WebServCo\Data\Container\Extraction\DataExtractionContainer;
 use WebServCo\JSONAPI\Contract\Service\JSONAPIRequestServiceInterface;
 use WebServCo\JSONAPI\JSONAPIInterface;
 
@@ -18,6 +18,10 @@ use const JSON_THROW_ON_ERROR;
 
 final class JSONAPIRequestService implements JSONAPIRequestServiceInterface
 {
+    public function __construct(private readonly DataExtractionContainer $dataExtractionContainer)
+    {
+    }
+
     public function contentTypeMatches(ServerRequestInterface $request): bool
     {
         $contentTypeHeaderValue = $this->getContentTypeHeaderValue($request);
@@ -59,67 +63,20 @@ final class JSONAPIRequestService implements JSONAPIRequestServiceInterface
         return $array;
     }
 
-    /** @phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint */
-
     /**
-     * @return array<mixed>
+     * @inheritDoc
      */
-    public function getRequestBodyData(ServerRequestInterface $request): array
+    public function validateVersion(array $requestBodyAsArray, float $expectedVersion = 1.1): bool
     {
-        $requestBodyAsArray = $this->getRequestBodyAsArray($request);
+        $version = $this->dataExtractionContainer->getLooseArrayNonEmptyDataExtractionService()->getNonEmptyFloat(
+            $requestBodyAsArray,
+            'jsonapi/version',
+        );
 
-        if (!array_key_exists('data', $requestBodyAsArray)) {
-            throw new OutOfBoundsException('Missing data node.');
-        }
-
-        if (!is_array($requestBodyAsArray['data'])) {
-            throw new UnexpectedValueException('Invalid data node.');
-        }
-
-        return $requestBodyAsArray['data'];
-    }
-
-    /**
-     * @return array<mixed>
-     */
-    public function getRequestBodyDataAttributes(ServerRequestInterface $request): array
-    {
-        $requestBodyData = $this->getRequestBodyData($request);
-
-        if (!array_key_exists('attributes', $requestBodyData)) {
-            throw new OutOfBoundsException('Invalid data.');
-        }
-
-        if (!is_array($requestBodyData['attributes'])) {
-            throw new UnexpectedValueException('Invalid data.');
-        }
-
-        return $requestBodyData['attributes'];
-    }
-
-    /**
-     * @param array<mixed> $requestBodyAsArray
-     */
-    public function validateVersion(array $requestBodyAsArray, string $expectedVersion = '1.1'): bool
-    {
-        if (!array_key_exists('jsonapi', $requestBodyAsArray)) {
-            throw new OutOfBoundsException('Missing jsonapi node.');
-        }
-
-        if (!is_array($requestBodyAsArray['jsonapi'])) {
-            throw new UnexpectedValueException('Invalid jsonapi node.');
-        }
-
-        if (!array_key_exists('version', $requestBodyAsArray['jsonapi'])) {
-            throw new OutOfBoundsException('Missing jsonapi.version node.');
-        }
-
-        if ($requestBodyAsArray['jsonapi']['version'] !== $expectedVersion) {
+        if ($version !== $expectedVersion) {
             throw new UnexpectedValueException('Invalid jsonapi.version.');
         }
 
         return true;
     }
-
-    /** @phpcs: enable */
 }

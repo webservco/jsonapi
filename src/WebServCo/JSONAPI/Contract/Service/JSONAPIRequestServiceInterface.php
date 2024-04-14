@@ -22,19 +22,9 @@ interface JSONAPIRequestServiceInterface
     public function getRequestBodyAsArray(ServerRequestInterface $request): array;
 
     /**
-     * @return array<mixed>
-     */
-    public function getRequestBodyData(ServerRequestInterface $request): array;
-
-    /**
-     * @return array<mixed>
-     */
-    public function getRequestBodyDataAttributes(ServerRequestInterface $request): array;
-
-    /**
      * @param array<mixed> $requestBodyAsArray
      */
-    public function validateVersion(array $requestBodyAsArray, string $expectedVersion = '1.1'): bool;
+    public function validateVersion(array $requestBodyAsArray, float $expectedVersion = 1.1): bool;
 
     /** @phpcs: enable */
 }
