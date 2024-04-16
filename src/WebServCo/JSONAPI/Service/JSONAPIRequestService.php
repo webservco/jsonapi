@@ -6,7 +6,7 @@ namespace WebServCo\JSONAPI\Service;
 
 use Psr\Http\Message\ServerRequestInterface;
 use UnexpectedValueException;
-use WebServCo\Data\Container\Extraction\DataExtractionContainer;
+use WebServCo\Data\Contract\Extraction\DataExtractionContainerInterface;
 use WebServCo\JSONAPI\Contract\Service\JSONAPIRequestServiceInterface;
 use WebServCo\JSONAPI\JSONAPIInterface;
 
@@ -18,7 +18,7 @@ use const JSON_THROW_ON_ERROR;
 
 final class JSONAPIRequestService implements JSONAPIRequestServiceInterface
 {
-    public function __construct(private readonly DataExtractionContainer $dataExtractionContainer)
+    public function __construct(private readonly DataExtractionContainerInterface $dataExtractionContainer)
     {
     }
 
