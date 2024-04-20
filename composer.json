@@ -26,8 +26,8 @@
     "name" : "webservco/jsonapi",
     "require": {
         "php" : "^8.2",
-        "webservco/data" : "^0",
-        "webservco/http" : "^0"
+        "psr/http-message": "^2",
+        "webservco/data" : "^0"
     },
     "require-dev": {
         "pds/skeleton": "^1",
