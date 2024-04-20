@@ -7,8 +7,8 @@ namespace WebServCo\JSONAPI\Service;
 use Psr\Http\Message\ServerRequestInterface;
 use UnexpectedValueException;
 use WebServCo\Data\Contract\Extraction\DataExtractionContainerInterface;
+use WebServCo\JSONAPI\Contract\Document\JSONAPIInterface;
 use WebServCo\JSONAPI\Contract\Service\JSONAPIRequestServiceInterface;
-use WebServCo\JSONAPI\JSONAPIInterface;
 
 use function array_key_exists;
 use function is_array;
