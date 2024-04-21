@@ -10,8 +10,6 @@ interface JSONAPIRequestServiceInterface
 {
     public function contentTypeMatches(ServerRequestInterface $request): bool;
 
-    public function getContentTypeHeaderValue(ServerRequestInterface $request): string;
-
     /** @phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint */
 
     /**
