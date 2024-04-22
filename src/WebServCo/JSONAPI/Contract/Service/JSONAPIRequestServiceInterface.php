@@ -22,7 +22,7 @@ interface JSONAPIRequestServiceInterface
     /**
      * @param array<mixed> $requestBodyAsArray
      */
-    public function validateVersion(array $requestBodyAsArray, float $expectedVersion = 1.1): bool;
+    public function versionMatches(array $requestBodyAsArray, float $expectedVersion = 1.1): bool;
 
     /** @phpcs: enable */
 }
