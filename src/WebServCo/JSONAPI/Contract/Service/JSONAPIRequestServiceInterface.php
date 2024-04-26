@@ -8,8 +8,6 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface JSONAPIRequestServiceInterface
 {
-    public function contentTypeMatches(ServerRequestInterface $request): bool;
-
     /** @phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint */
 
     /**
@@ -18,6 +16,8 @@ interface JSONAPIRequestServiceInterface
      * @return array<mixed>
      */
     public function getRequestBodyAsArray(ServerRequestInterface $request): array;
+
+    public function validateContentType(ServerRequestInterface $request): bool;
 
     /**
      * @param array<mixed> $requestBodyAsArray
