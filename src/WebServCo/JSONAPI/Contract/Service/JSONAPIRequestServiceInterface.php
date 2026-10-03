@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface;
 
 interface JSONAPIRequestServiceInterface
 {
-    /** @phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint */
+    // @phpcs:disable SlevomatCodingStandard.TypeHints.DisallowMixedTypeHint.DisallowedMixedTypeHint
 
     /**
      * Parse request body and return it as an array.
@@ -24,5 +24,5 @@ interface JSONAPIRequestServiceInterface
      */
     public function versionMatches(array $requestBodyAsArray, float $expectedVersion = 1.1): bool;
 
-    /** @phpcs: enable */
+    // @phpcs:enable
 }
