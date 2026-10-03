@@ -6,5 +6,5 @@ namespace WebServCo\JSONAPI\Contract\Document;
 
 interface JSONAPIInterface
 {
-    public const MEDIA_TYPE = 'application/vnd.api+json';
+    public const string MEDIA_TYPE = 'application/vnd.api+json';
 }
